@@ -26,8 +26,8 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	// Получаем тело запроса и сам expression
 	body, err := ioutil.ReadAll(r.Body)
 
-	log.Printf("body:\n %v", string(body))
-	log.Printf("Request.Header.content-type: %v", r.Header.Get("Content-Type"))
+	//log.Printf("body:\n %v", string(body))
+	//log.Printf("Request.Header.content-type: %v", r.Header.Get("Content-Type"))
 
 	if err != nil {
 		log.Printf("ERROR: Ошибка получения данных запроса! Текст ошибки: %v", err)
