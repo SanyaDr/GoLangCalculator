@@ -83,3 +83,14 @@ func GetExpressions() []Expression {
 	}
 	return allExps
 }
+
+func GetUnresolvedOne() (string, bool) {
+	exists := false
+	var expr Expression
+	for _, expression := range unresolvedExpressions {
+		exists = true
+		expr = expression
+		break
+	}
+	return expr.Expression, exists
+}

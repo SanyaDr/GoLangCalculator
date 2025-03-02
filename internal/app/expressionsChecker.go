@@ -2,6 +2,7 @@ package app
 
 import (
 	config "SecondSprintExam"
+	calculator "SecondSprintExam/pkg/calculation"
 	"context"
 	"time"
 )
@@ -16,7 +17,11 @@ func setChecker() {
 				cancel()
 
 			case <-time.After(config.CheckNewExpression_Timeout * time.Second):
-
+				expr, exists := GetUnresolvedOne()
+				if !exists {
+					break
+				}
+				calculator.Calc(expr)
 			}
 		}
 	}()

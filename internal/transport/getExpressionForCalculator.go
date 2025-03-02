@@ -1,7 +1,7 @@
 package transport
 
 import (
-	calculator "SecondSprintExam/internal/app"
+	app "SecondSprintExam/internal/app"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -53,6 +53,6 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	//returnAnswer(w, fmt.Sprint(result))
 	//log.Printf("Получен результат: %v", result)
 
-	calculator.AddNewExpression(calculator.Expression{Expression: myReq.Expression})
+	app.AddNewExpression(myReq.Expression)
 	log.Printf("Получено новое выражение: %v", myReq.Expression)
 }
