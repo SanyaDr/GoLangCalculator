@@ -7,7 +7,8 @@ import (
 )
 
 func RunServer() {
-	setServer()
+	setEndpoints()
+	setChecker()
 
 	log.Println("Сервер запущен на http://localhost:8080")
 	log.Printf("Время запуска: %v\n", time.Now().Format("15:04:05"))

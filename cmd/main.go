@@ -13,7 +13,14 @@ func setLogger() {
 	log.SetOutput(os.Stdout)
 }
 
+// initVars - инициализация необходимых переменных
+func initVars() {
+	//TODO удали, делай сразу через = make...
+	//app.NewExpressionsStorage()
+}
+
 func main() {
 	setLogger()
+	initVars()
 	app.RunServer()
 }

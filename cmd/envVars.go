@@ -7,7 +7,7 @@ import (
 
 // Названия переменных окружения системы
 const (
-	stockTimeExecution = "1" // Время выполнение операции по умолчанию (если переменные среды не найдены)
+	stockTimeExecution = "10" // Время выполнение операции по умолчанию (если переменные среды не найдены)
 
 	time_addition_name       = "TIME_ADDITION_MS"
 	time_subtraction_name    = "TIME_SUBTRACTION_MS "
