@@ -3,8 +3,11 @@ package app
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 func RunServer() {
 	setEndpoints()
