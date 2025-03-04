@@ -1,7 +1,7 @@
 package main
 
 import (
-	envi "SecondSprintExam"
+	"SecondSprintExam/config"
 	"SecondSprintExam/internal/app"
 	"log"
 	"os"
@@ -16,7 +16,7 @@ func setLogger() {
 
 // initVars - инициализация необходимых переменных
 func initVars() {
-	envi.LoadEnvironmentVariables()
+	config.LoadEnvironmentVariables()
 }
 
 func main() {

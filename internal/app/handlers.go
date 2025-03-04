@@ -15,11 +15,12 @@ func setEndpoints() {
 	// "/api/v1/calculate" - точка принятия новых выражений
 	http.HandleFunc("/api/v1/calculate", transport.GetExpression)
 	// "/api/v1/expressions" - получение списка выражений
-	// http.handleFunc()
 	// "/api/v1/expressions/:id" - Получение выражения по его идентификатору
-	// http.handleFunc()
+	http.HandleFunc("/api/v1/expressions", transport.GetAllExpressions)
+
+	//Меняем суть, теперь оно отдает не таски и целиком выражения
 	// "/internal/task" - Получение задачи для выполнения
-	// http.handleFunc()
+	http.HandleFunc("/internal/task", transport.GetTask)
 	// "/internal/task" - Прием результата обработки данных
 	// ?????????
 

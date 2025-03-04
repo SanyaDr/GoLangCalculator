@@ -1,13 +1,17 @@
 package app
 
 import (
-	config "SecondSprintExam"
+	"SecondSprintExam/config"
+	"SecondSprintExam/internal/transport"
 	calculator "SecondSprintExam/pkg/calculation"
+
 	"context"
 	"time"
 )
 
-// каждую секунду ожидает получения новой задачии
+var threadsCount = 0
+
+// каждую секунду ожидает получения новой задачи
 func setChecker() {
 	go func() {
 		for {
@@ -17,11 +21,32 @@ func setChecker() {
 				cancel()
 
 			case <-time.After(config.CheckNewExpression_Timeout * time.Second):
+				// TODO тут не обращаемся напрямую а через http
 				expr, exists := GetUnresolvedOne()
 				if !exists {
 					break
 				}
-				calculator.Calc(expr)
+				for threadsCount > config.GetComputingPower() {
+					time.After(250 * time.Millisecond)
+				}
+				go func() {
+					mu.Lock()
+					threadsCount++
+					mu.Unlock()
+
+					defer func() {
+						mu.Lock()
+						threadsCount--
+						mu.Unlock()
+					}()
+
+					ans, err := calculator.Calc(expr.Expression)
+					if err != nil {
+						transport.PostStatusCalc(expr.Id, Failed, 0)
+						return
+					}
+					transport.PostStatusCalc(expr.Id, Success, ans)
+				}()
 			}
 		}
 	}()

@@ -1,7 +1,7 @@
 package calculator
 
 import (
-	outer "SecondSprintExam"
+	outer "SecondSprintExam/config"
 	"strings"
 	"time"
 )

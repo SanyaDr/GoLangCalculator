@@ -1,0 +1,33 @@
+package transport
+
+import (
+	"SecondSprintExam/internal/app"
+	"bytes"
+	"encoding/json"
+	"log"
+	"net/http"
+)
+
+// TODO del
+//type expressionResultRequest struct {
+//	Id     int     `json:"id"`
+//	Status string  `json:"status"`
+//	Answer float64 `json:"answer"`
+//}
+
+func PostStatusCalc(id int, status app.ExpressionStatus, answer float64) {
+	myReq := app.Expression{
+		Id:     id,
+		Status: status,
+		Result: answer,
+	}
+	data, err := json.Marshal(myReq)
+	if err != nil {
+		log.Printf("ERROR: PostStatusCalc(%v) -> Got an error: %v", id, err)
+		return
+	}
+	_, err = http.Post("localhost:8080/internal/task", "encoding/json", bytes.NewBuffer(data))
+	if err != nil {
+		log.Printf("ERROR: PostStatusCalc(%v) -> Got an error: %v", id, err)
+	}
+}

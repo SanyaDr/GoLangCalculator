@@ -1,4 +1,4 @@
-package SecondSprintExam
+package config
 
 import (
 	"log"
@@ -93,12 +93,12 @@ func loadTimeDivision() {
 func loadComputingPower() {
 	envVal, exists := os.LookupEnv(computing_power_name)
 	if !exists {
-		computing_power_value = stockTimeExecution
+		computing_power_value = stockComputingPower
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
 			log.Printf("ERROR: loadComputingPower() -> enviroment value=%v, is not a string", computing_power_value)
-			computing_power_value = stockTimeExecution
+			computing_power_value = stockComputingPower
 		} else {
 			computing_power_value = numVal
 		}

@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var wg sync.WaitGroup
+var mu sync.Mutex
 
 func RunServer() {
 	setEndpoints()

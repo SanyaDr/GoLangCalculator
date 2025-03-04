@@ -1,7 +1,7 @@
 package transport
 
 import (
-	app "SecondSprintExam/internal/app"
+	"SecondSprintExam/internal/app"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -43,7 +43,7 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 
 	// Отправляем полученный expression в Calculator
 	//TODO del comm
-	//result, err := calculator.Calc(myReq.Expression)
+	//result, err := calculator.Calc(myReq.expression)
 	//if err != nil {
 	//	returnError(w, err.Error(), http.StatusUnprocessableEntity)
 	//	log.Printf("ERROR: Ошибка при вычислении! Текст ошибки: %v", err)
@@ -53,6 +53,7 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	//returnAnswer(w, fmt.Sprint(result))
 	//log.Printf("Получен результат: %v", result)
 
-	app.AddNewExpression(myReq.Expression)
+	curId := app.AddNewExpression(myReq.Expression)
 	log.Printf("Получено новое выражение: %v", myReq.Expression)
+	returnSuccessAddingNewExpression(w, curId)
 }
