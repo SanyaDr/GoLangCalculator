@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"SecondSprintExam/internal/app"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -62,7 +61,7 @@ func returnSuccessAddingNewExpression(w http.ResponseWriter, id int) {
 // TODO Test this shit!
 // Вывод на экран всех выражений
 func GetAllExpressions(w http.ResponseWriter, r *http.Request) {
-	expressions := app.GetMapAllExpressions()
+	expressions := GetMapAllExpressions()
 	var rData []byte
 	var err error
 
@@ -77,24 +76,32 @@ func GetAllExpressions(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			returnError(w, err.Error(), http.StatusInternalServerError)
 		}
-		rData, err = json.Marshal(expressions[curId])
+		expression, exists := expressions[curId]
+		if !exists {
+			returnError(w, "Does not exist", http.StatusNotFound)
+			return
+		}
+		rData, err = json.Marshal(expression)
 		if err != nil {
 			returnError(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	}
 
 	_, err = fmt.Fprintf(w, string(rData))
 	if err != nil {
 		returnError(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 
 // TODO Test This Shit -> TTS
 func GetTask(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		newExpression, exists := app.GetUnresolvedOne()
+		newExpression, exists := GetUnresolvedOne()
 		if !exists {
 			returnError(w, "No tasks", http.StatusInternalServerError)
+			return
 		}
 		resp := taskResponse{
 			Id:         newExpression.Id,
@@ -103,13 +110,15 @@ func GetTask(w http.ResponseWriter, r *http.Request) {
 		rData, err := json.Marshal(resp)
 		if err != nil {
 			returnError(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		_, err = fmt.Fprintf(w, string(rData))
 		if err != nil {
 			returnError(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 	} else if r.Method == "POST" {
-		var myReq app.Expression
+		var myReq Expression
 
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -117,10 +126,11 @@ func GetTask(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		err = json.Unmarshal(body, &myReq)
-		app.UpdateExpressionStatus(myReq.Id, myReq.Status, myReq.Result)
+		UpdateExpressionStatus(myReq.Id, myReq.Status, myReq.Result)
 		// Обновить статус выражения
 
 	} else {
-		http.Error(w, "Method not allowed", http.StatusUnprocessableEntity)
+		returnError(w, "Method not allowed", http.StatusUnprocessableEntity)
+		return
 	}
 }

@@ -1,4 +1,4 @@
-package app
+package transport
 
 import "log"
 
@@ -32,7 +32,9 @@ func AddNewExpression(expression string) int {
 		Status:     Solving,
 		Result:     0.0,
 	}
-	for exists := true; exists != false; _, exists = expressionStorage[nextId] {
+	_, exists := expressionStorage[nextId]
+	for exists != false {
+		_, exists = expressionStorage[nextId]
 		if exists {
 			log.Printf("ERROR: Expression already exists!")
 		}
@@ -50,31 +52,6 @@ func delFromUnresolved(id int) {
 		log.Printf("ERROR: delFromUnresolved(%v) -> unresolved Expression does not exist!", id)
 	}
 	delete(unresolvedExpressions, id)
-}
-
-// TODO удалить лишние функции
-// Обновить статус выражение на Failed
-func ExpressionFailure(id int) {
-	expr, exists := expressionStorage[id]
-	if !exists {
-		log.Printf("ERROR: ExpressionFailure(%v) -> Expression does not exist!", id)
-		return
-	}
-	expr.Status = Failed
-	expressionStorage[id] = expr
-	delFromUnresolved(id)
-}
-
-// Обновить статус выражения на Success
-func ExpressionSuccess(id int, result float64) {
-	expr, exists := expressionStorage[id]
-	if !exists {
-		log.Printf("ERROR: ExpressionSuccess(%v) -> Expression does not exist!", id)
-	}
-	expr.Result = result
-	expr.Status = Success
-	expressionStorage[id] = expr
-	delFromUnresolved(id)
 }
 
 // Получить карту всех выражений
@@ -95,6 +72,9 @@ func GetUnresolvedOne() (Expression, bool) {
 		expr = expression
 		break
 	}
+	if exists {
+		delFromUnresolved(expr.Id)
+	}
 	return expr, exists
 }
 
@@ -110,5 +90,5 @@ func UpdateExpressionStatus(id int, status ExpressionStatus, result float64) {
 		expr.Result = 0
 	}
 	expressionStorage[id] = expr
-	delFromUnresolved(id)
+	//delFromUnresolved(id)
 }

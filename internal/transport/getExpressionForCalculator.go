@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"SecondSprintExam/internal/app"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -53,7 +52,7 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	//returnAnswer(w, fmt.Sprint(result))
 	//log.Printf("Получен результат: %v", result)
 
-	curId := app.AddNewExpression(myReq.Expression)
+	curId := AddNewExpression(myReq.Expression)
 	log.Printf("Получено новое выражение: %v", myReq.Expression)
 	returnSuccessAddingNewExpression(w, curId)
 }

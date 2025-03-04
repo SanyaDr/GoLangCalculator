@@ -17,16 +17,16 @@ var separatorOperator = func(r rune) bool {
 func calculate(a, b float64, operation rune) (float64, error) {
 	switch operation {
 	case '+':
-		time.After(time.Duration(outer.GetTimeAddition()) * time.Millisecond)
+		<-time.After(time.Duration(outer.GetTimeAddition()) * time.Millisecond)
 		return a + b, nil
 	case '-':
-		time.After(time.Duration(outer.GetTimeSubtraction()) * time.Millisecond)
+		<-time.After(time.Duration(outer.GetTimeSubtraction()) * time.Millisecond)
 		return a - b, nil
 	case '*':
-		time.After(time.Duration(outer.GetTimeMultiplication()) * time.Millisecond)
+		<-time.After(time.Duration(outer.GetTimeMultiplication()) * time.Millisecond)
 		return a * b, nil
 	case '/':
-		time.After(time.Duration(outer.GetTimeDivision()) * time.Millisecond)
+		<-time.After(time.Duration(outer.GetTimeDivision()) * time.Millisecond)
 		if b == 0 {
 			return 0, ErrDivisionByZero
 		}

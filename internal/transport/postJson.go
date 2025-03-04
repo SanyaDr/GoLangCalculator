@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"SecondSprintExam/internal/app"
 	"bytes"
 	"encoding/json"
 	"log"
@@ -15,19 +14,19 @@ import (
 //	Answer float64 `json:"answer"`
 //}
 
-func PostStatusCalc(id int, status app.ExpressionStatus, answer float64) {
-	myReq := app.Expression{
+func PostStatusCalc(id int, status ExpressionStatus, answer float64) {
+	myReq := Expression{
 		Id:     id,
 		Status: status,
 		Result: answer,
 	}
 	data, err := json.Marshal(myReq)
 	if err != nil {
-		log.Printf("ERROR: PostStatusCalc(%v) -> Got an error: %v", id, err)
+		log.Printf("ERROR: PostStatusCalc(%v) -> json.Marshal() -> Got an error: %v", id, err)
 		return
 	}
-	_, err = http.Post("localhost:8080/internal/task", "encoding/json", bytes.NewBuffer(data))
+	_, err = http.Post("http://localhost:8080/internal/task", "encoding/json", bytes.NewBuffer(data))
 	if err != nil {
-		log.Printf("ERROR: PostStatusCalc(%v) -> Got an error: %v", id, err)
+		log.Printf("ERROR: PostStatusCalc(%v) -> http.Post() -> Got an error: %v", id, err)
 	}
 }

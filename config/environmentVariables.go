@@ -11,19 +11,19 @@ const (
 	stockTimeExecution  = 10 // Время выполнение операции по умолчанию (если переменные среды не найдены)
 	stockComputingPower = 3  // Кол-во горутин по умолчанию
 
-	time_addition_name       = "TIME_ADDITION_MS"       // Время выполнения операции сложения в миллисекундах
-	time_subtraction_name    = "TIME_SUBTRACTION_MS "   // Время выполнения операции вычитания в миллисекундах
-	time_multiplication_name = "TIME_MULTIPLICATION_MS" // Время выполнения операции умножения в миллисекундах
-	time_division_name       = "TIME_DIVISION_MS"       // Время выполнения операции деления в миллисекундах
-	computing_power_name     = "COMPUTING_POWER"        // Количество горутин регулируется переменной среды
+	time_addition_name       = "TIME_ADDITION_MS"        // Время выполнения операции сложения в миллисекундах
+	time_subtraction_name    = "TIME_SUBTRACTION_MS"     // Время выполнения операции вычитания в миллисекундах
+	time_multiplication_name = "TIME_MULTIPLICATIONS_MS" // Время выполнения операции умножения в миллисекундах
+	time_division_name       = "TIME_DIVISIONS_MS"       // Время выполнения операции деления в миллисекундах
+	computing_power_name     = "COMPUTING_POWER"         // Количество горутин регулируется переменной среды
 )
 
 var (
-	time_addition_value       int
-	time_subtraction_value    int
-	time_multiplication_value int
-	time_division_value       int
-	computing_power_value     int
+	timeAdditionValue       int
+	timeSubtractionValue    int
+	timeMultiplicationValue int
+	timeDivisionValue       int
+	computingPowerValue     int
 )
 
 func LoadEnvironmentVariables() {
@@ -33,90 +33,91 @@ func LoadEnvironmentVariables() {
 	loadTimeDivision()
 	loadComputingPower()
 	log.Println("Environment Variables loaded successfully")
+	log.Printf("%v; %v; %v; %v; %v; ", timeAdditionValue, timeSubtractionValue, timeMultiplicationValue, timeDivisionValue, computingPowerValue)
 }
 
 func loadTimeAddition() {
 	envVal, exists := os.LookupEnv(time_addition_name)
 	if !exists {
-		time_addition_value = stockTimeExecution
+		timeAdditionValue = stockTimeExecution
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
-			log.Printf("ERROR: loadTimeAddition() -> enviroment value=%v, is not a string", time_addition_value)
-			time_addition_value = stockTimeExecution
+			log.Printf("ERROR: loadTimeAddition() -> enviroment value=%v, is not a string", timeAdditionValue)
+			timeAdditionValue = stockTimeExecution
 		}
-		time_addition_value = numVal
+		timeAdditionValue = numVal
 	}
 }
 func loadTimeSubtraction() {
 	envVal, exists := os.LookupEnv(time_subtraction_name)
 	if !exists {
-		time_subtraction_value = stockTimeExecution
+		timeSubtractionValue = stockTimeExecution
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
-			log.Printf("ERROR: loadTimeSubtraction() -> enviroment value=%v, is not a string", time_subtraction_value)
-			time_subtraction_value = stockTimeExecution
+			log.Printf("ERROR: loadTimeSubtraction() -> enviroment value=%v, is not a string", timeSubtractionValue)
+			timeSubtractionValue = stockTimeExecution
 		} else {
-			time_addition_value = numVal
+			timeSubtractionValue = numVal
 		}
 	}
 }
 func loadTimeMultiplication() {
 	envVal, exists := os.LookupEnv(time_multiplication_name)
 	if !exists {
-		time_multiplication_value = stockTimeExecution
+		timeMultiplicationValue = stockTimeExecution
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
-			log.Printf("ERROR: loadTimeMultiplication() -> enviroment value=%v, is not a string", time_multiplication_value)
-			time_multiplication_value = stockTimeExecution
+			log.Printf("ERROR: loadTimeMultiplication() -> enviroment value=%v, is not a string", timeMultiplicationValue)
+			timeMultiplicationValue = stockTimeExecution
 		} else {
-			time_multiplication_value = numVal
+			timeMultiplicationValue = numVal
 		}
 	}
 }
 func loadTimeDivision() {
 	envVal, exists := os.LookupEnv(time_division_name)
 	if !exists {
-		time_division_value = stockTimeExecution
+		timeDivisionValue = stockTimeExecution
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
-			log.Printf("ERROR: loadTimeDivision() -> enviroment value=%v, is not a string", time_division_value)
-			time_division_value = stockTimeExecution
+			log.Printf("ERROR: loadTimeDivision() -> enviroment value=%v, is not a string", timeDivisionValue)
+			timeDivisionValue = stockTimeExecution
 		} else {
-			time_division_value = numVal
+			timeDivisionValue = numVal
 		}
 	}
 }
 func loadComputingPower() {
 	envVal, exists := os.LookupEnv(computing_power_name)
 	if !exists {
-		computing_power_value = stockComputingPower
+		computingPowerValue = stockComputingPower
 	} else {
 		numVal, err := strconv.Atoi(envVal)
 		if err != nil {
-			log.Printf("ERROR: loadComputingPower() -> enviroment value=%v, is not a string", computing_power_value)
-			computing_power_value = stockComputingPower
+			log.Printf("ERROR: loadComputingPower() -> enviroment value=%v, is not a string", computingPowerValue)
+			computingPowerValue = stockComputingPower
 		} else {
-			computing_power_value = numVal
+			computingPowerValue = numVal
 		}
 	}
 }
 
 func GetTimeAddition() int {
-	return time_addition_value
+	return timeAdditionValue
 }
 func GetTimeSubtraction() int {
-	return time_subtraction_value
+	return timeSubtractionValue
 }
 func GetTimeMultiplication() int {
-	return time_multiplication_value
+	return timeMultiplicationValue
 }
 func GetTimeDivision() int {
-	return time_division_value
+	return timeDivisionValue
 }
 func GetComputingPower() int {
-	return computing_power_value
+	return computingPowerValue
 }

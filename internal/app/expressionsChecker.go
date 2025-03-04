@@ -4,8 +4,8 @@ import (
 	"SecondSprintExam/config"
 	"SecondSprintExam/internal/transport"
 	calculator "SecondSprintExam/pkg/calculation"
-
 	"context"
+	"log"
 	"time"
 )
 
@@ -22,11 +22,11 @@ func setChecker() {
 
 			case <-time.After(config.CheckNewExpression_Timeout * time.Second):
 				// TODO тут не обращаемся напрямую а через http
-				expr, exists := GetUnresolvedOne()
+				expr, exists := transport.GetUnresolvedOne()
 				if !exists {
 					break
 				}
-				for threadsCount > config.GetComputingPower() {
+				for threadsCount >= config.GetComputingPower() {
 					time.After(250 * time.Millisecond)
 				}
 				go func() {
@@ -42,10 +42,11 @@ func setChecker() {
 
 					ans, err := calculator.Calc(expr.Expression)
 					if err != nil {
-						transport.PostStatusCalc(expr.Id, Failed, 0)
+						transport.PostStatusCalc(expr.Id, transport.Failed, 0)
 						return
 					}
-					transport.PostStatusCalc(expr.Id, Success, ans)
+					transport.PostStatusCalc(expr.Id, transport.Success, ans)
+					log.Printf("Задача %v решена", expr.Id)
 				}()
 			}
 		}
