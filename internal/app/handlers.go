@@ -13,14 +13,14 @@ func setEndpoints() {
 		fmt.Fprintln(w, "Приветствую в калькуляторе!")
 	})
 	// "/api/v1/calculate" - точка принятия новых выражений
-	http.HandleFunc("/api/v1/calculate", transport.GetExpression)
+	http.HandleFunc("/api/v1/calculate", transport.GetExpressionHandler)
 	// "/api/v1/expressions" - получение списка выражений
 	// "/api/v1/expressions/:id" - Получение выражения по его идентификатору
-	http.HandleFunc("/api/v1/expressions", transport.GetAllExpressions)
+	http.HandleFunc("/api/v1/expressions", transport.GetAllExpressionsHandler)
 
 	//Меняем суть, теперь оно отдает не таски и целиком выражения
 	// "/internal/task" - Получение задачи для выполнения
-	http.HandleFunc("/internal/task", transport.GetTask)
+	http.HandleFunc("/internal/task", transport.GetTaskHandler)
 	// "/internal/task" - Прием результата обработки данных
 	// ?????????
 

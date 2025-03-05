@@ -59,6 +59,14 @@ func GetMapAllExpressions() map[int]Expression {
 	return expressionStorage
 }
 
+// Получить слайс всех выражений
+func GetAllExpressions() []Expression {
+	allExps := make([]Expression, 0, len(expressionStorage))
+	for _, expression := range expressionStorage {
+		allExps = append(allExps, expression)
+	}
+	return allExps
+}
 func GetUnresolvedOne() (Expression, bool) {
 	exists := false
 	var expr Expression

@@ -11,8 +11,8 @@ type MyRequest struct {
 	Expression string `json:"expression"`
 }
 
-// GetExpression Метод чтения выражения и отправка его в Calculation
-func GetExpression(w http.ResponseWriter, r *http.Request) {
+// GetExpressionHandler Метод чтения выражения и отправка его в Calculation
+func GetExpressionHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var myReq MyRequest
 	// Проверяем что получен именно POST метод
