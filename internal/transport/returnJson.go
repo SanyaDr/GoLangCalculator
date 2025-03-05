@@ -59,16 +59,16 @@ func GetAllExpressionsHandler(w http.ResponseWriter, r *http.Request) {
 	var rData []byte
 	var err error
 
-	//selectedId := r.URL.Query().Get("id")
+	// Получаем id выражения если есть
 	query := r.URL.Query()
 	var selectedId string
 	for key, values := range query {
 		if strings.EqualFold(key, "id") {
-			selectedId = values[0] // Берем первое значение
+			selectedId = values[0]
 			break
 		}
 	}
-	// Получить все выражения
+	// Если iD не задано, выводим все выражения
 	if selectedId == "" {
 		allExpressions := GetAllExpressions()
 		expressionResponses := make([]ExpressionResponse, 0, len(allExpressions))
