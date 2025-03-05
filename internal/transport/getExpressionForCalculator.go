@@ -1,9 +1,7 @@
 package transport
 
 import (
-	"SecondSprintExam/pkg/calculation"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -26,8 +24,9 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	// Получаем тело запроса и сам expression
 	body, err := ioutil.ReadAll(r.Body)
 
-	log.Printf("body:\n %v", string(body))
-	log.Printf("Request.Header.content-type: %v", r.Header.Get("Content-Type"))
+	//TODO удалить коммент ниже
+	//log.Printf("body:\n %v", string(body))
+	//log.Printf("Request.Header.content-type: %v", r.Header.Get("Content-Type"))
 
 	if err != nil {
 		log.Printf("ERROR: Ошибка получения данных запроса! Текст ошибки: %v", err)
@@ -42,14 +41,18 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Отправляем полученный expression в Calculator
-	result, err := calculator.Calc(myReq.Expression)
-	if err != nil {
-		returnError(w, err.Error(), http.StatusUnprocessableEntity)
-		log.Printf("ERROR: Ошибка при вычислении! Текст ошибки: %v", err)
-		return
-	}
+	//TODO del comm
+	//result, err := calculator.Calc(myReq.expression)
+	//if err != nil {
+	//	returnError(w, err.Error(), http.StatusUnprocessableEntity)
+	//	log.Printf("ERROR: Ошибка при вычислении! Текст ошибки: %v", err)
+	//	return
+	//}
+	//
+	//returnAnswer(w, fmt.Sprint(result))
+	//log.Printf("Получен результат: %v", result)
 
-	returnAnswer(w, fmt.Sprint(result))
-	log.Printf("Получен результат: %v", result)
-
+	curId := AddNewExpression(myReq.Expression)
+	log.Printf("Получено новое выражение: %v", myReq.Expression)
+	returnSuccessAddingNewExpression(w, curId)
 }

@@ -21,7 +21,6 @@ func simplifyParentheses(expression string) (string, error) {
 			parCloseCount++
 			if parCloseCount == parOpenCount {
 				parLastClose = i
-
 				simpleExp, err := simplifyParentheses(expression[parFirstOpen+1 : parLastClose])
 				if err != nil {
 					return "", ErrInvalidExpression
