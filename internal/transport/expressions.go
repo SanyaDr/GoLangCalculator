@@ -57,11 +57,6 @@ func delFromUnresolved(id int) {
 // Получить карту всех выражений
 func GetMapAllExpressions() map[int]Expression {
 	return expressionStorage
-	//allExps := make([]Expression, 0, len(expressionStorage))
-	//for _, Expression := range expressionStorage {
-	//	allExps = append(allExps, Expression)
-	//}
-	//return allExps
 }
 
 func GetUnresolvedOne() (Expression, bool) {
