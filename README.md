@@ -59,7 +59,8 @@ _P.S калькулятор имитирует долгое вычисление
 ## Запуск сервера
 > [!Caution]
 > Если для тестирования вы используете систему Windows, настоятельно рекомендую использовать консоль PowerShell, так как возникают проблемы с кавычками у стандартной командной строки Windows
-> [Ссылка](https://learn.microsoft.com/ru-ru/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5)
+> 
+> [Ссылка на PowerShell](https://learn.microsoft.com/ru-ru/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5)
 
 Далее, вам необходимо открыть в консоли место расположения проекта.  
 В моем случае это: `C:\Users\mrdro\SecondSprintExam`, следовательно используйте команду  
