@@ -46,7 +46,6 @@ func setChecker() {
 				//	log.Printf("ERROR: SetChecker() -> http.Get(%v): %v", url, err)
 				//	break
 				//}
-				defer resp.Body.Close()
 				body, err := io.ReadAll(resp.Body)
 				if err != nil {
 					log.Printf("ERROR: SetChecker() -> io.ReadAll(): %v", err)
