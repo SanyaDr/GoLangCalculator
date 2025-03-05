@@ -5,13 +5,16 @@ import (
 	"SecondSprintExam/internal/transport"
 	calculator "SecondSprintExam/pkg/calculation"
 	"context"
+	"encoding/json"
+	"io"
 	"log"
+	"net/http"
 	"time"
 )
 
 var threadsCount = 0
 
-// каждую секунду ожидает получения новой задачи
+// Каждую секунду ожидает получения новой задачи
 func setChecker() {
 	go func() {
 		for {
@@ -20,12 +23,40 @@ func setChecker() {
 			case <-ctx.Done():
 				cancel()
 
-			case <-time.After(config.CheckNewExpression_Timeout * time.Second):
-				// TODO тут не обращаемся напрямую а через http
-				expr, exists := transport.GetUnresolvedOne()
-				if !exists {
+			case <-time.After(config.CheckNewExpression_Timeout * time.Millisecond):
+				if !transport.GetExistUnresolved() {
 					break
 				}
+				url := "http://localhost:8080/internal/task"
+
+				myReq, err := http.NewRequest("GET", url, nil)
+				if err != nil {
+					log.Printf("ERROR: setChecker() -> http.NewRequest err: %v", err)
+					break
+				}
+				myReq.Header.Set("FromWhat", "FromCalc")
+				client := &http.Client{}
+				resp, err := client.Do(myReq)
+				if err != nil {
+					log.Printf("ERROR: setChecker() -> client.Do err: %v", err)
+				}
+
+				//resp, err := http.Get(url)
+				//if err != nil {
+				//	log.Printf("ERROR: SetChecker() -> http.Get(%v): %v", url, err)
+				//	break
+				//}
+				defer resp.Body.Close()
+				body, err := io.ReadAll(resp.Body)
+				if err != nil {
+					log.Printf("ERROR: SetChecker() -> io.ReadAll(): %v", err)
+				}
+				var expr transport.TaskResponse
+				err = json.Unmarshal(body, &expr)
+				if err != nil {
+					log.Printf("ERROR: SetChecker() -> json.Unmarshal(): %v", err)
+				}
+
 				for threadsCount >= config.GetComputingPower() {
 					time.After(250 * time.Millisecond)
 				}

@@ -6,18 +6,6 @@ import (
 	"strconv"
 )
 
-// Названия переменных окружения системы
-const (
-	stockTimeExecution  = 10 // Время выполнение операции по умолчанию (если переменные среды не найдены)
-	stockComputingPower = 3  // Кол-во горутин по умолчанию
-
-	time_addition_name       = "TIME_ADDITION_MS"        // Время выполнения операции сложения в миллисекундах
-	time_subtraction_name    = "TIME_SUBTRACTION_MS"     // Время выполнения операции вычитания в миллисекундах
-	time_multiplication_name = "TIME_MULTIPLICATIONS_MS" // Время выполнения операции умножения в миллисекундах
-	time_division_name       = "TIME_DIVISIONS_MS"       // Время выполнения операции деления в миллисекундах
-	computing_power_name     = "COMPUTING_POWER"         // Количество горутин регулируется переменной среды
-)
-
 var (
 	timeAdditionValue       int
 	timeSubtractionValue    int

@@ -7,9 +7,10 @@ import (
 	"os"
 )
 
-// Run фукнции для запуска http сервера
+// Run функции для запуска http сервера
 // TODO изучить godoc
 // TODO добавить api тесты
+// TODO переписать на нормальный logger :(
 func setLogger() {
 	log.SetOutput(os.Stdout)
 }

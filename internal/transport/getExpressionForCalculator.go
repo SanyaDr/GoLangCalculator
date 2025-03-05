@@ -2,7 +2,7 @@ package transport
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
@@ -11,8 +11,9 @@ type MyRequest struct {
 	Expression string `json:"expression"`
 }
 
-// GetExpression Метод чтения выражения и отправка его в Calculation
-func GetExpression(w http.ResponseWriter, r *http.Request) {
+// GetExpressionHandler Метод чтения выражения и отправка его в Calculation
+func GetExpressionHandler(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	var myReq MyRequest
 	// Проверяем что получен именно POST метод
 	if r.Method != http.MethodPost {
@@ -22,11 +23,7 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Получаем тело запроса и сам expression
-	body, err := ioutil.ReadAll(r.Body)
-
-	//TODO удалить коммент ниже
-	//log.Printf("body:\n %v", string(body))
-	//log.Printf("Request.Header.content-type: %v", r.Header.Get("Content-Type"))
+	body, err := io.ReadAll(r.Body)
 
 	if err != nil {
 		log.Printf("ERROR: Ошибка получения данных запроса! Текст ошибки: %v", err)
@@ -39,18 +36,6 @@ func GetExpression(w http.ResponseWriter, r *http.Request) {
 		returnError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	// Отправляем полученный expression в Calculator
-	//TODO del comm
-	//result, err := calculator.Calc(myReq.expression)
-	//if err != nil {
-	//	returnError(w, err.Error(), http.StatusUnprocessableEntity)
-	//	log.Printf("ERROR: Ошибка при вычислении! Текст ошибки: %v", err)
-	//	return
-	//}
-	//
-	//returnAnswer(w, fmt.Sprint(result))
-	//log.Printf("Получен результат: %v", result)
 
 	curId := AddNewExpression(myReq.Expression)
 	log.Printf("Получено новое выражение: %v", myReq.Expression)
