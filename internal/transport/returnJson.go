@@ -3,23 +3,19 @@ package transport
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-// TODO Del unused
-type answerResponse struct {
-	Result string `json:"result"`
-}
 type errorResponse struct {
 	Error string `json:"error"`
 }
 type newExpressionRequest struct {
 	Id int `json:"id"`
 }
-type taskResponse struct {
+type TaskResponse struct {
 	Id         int    `json:"id"`
 	Expression string `json:"expression"`
 }
@@ -34,20 +30,6 @@ type AllExpressionsResponse struct {
 type ExpressionByIdResponse struct {
 	Expression ExpressionResponse `json:"expression"`
 }
-
-//TODO Del com
-//// Вывод на экран ответ в виде JSON
-//func returnAnswer(w http.ResponseWriter, text string) {
-//	resp := answerResponse{Result: text}
-//	rData, err := json.Marshal(resp)
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusInternalServerError)
-//	}
-//	_, err = fmt.Fprintf(w, string(rData))
-//	if err != nil {
-//		http.Error(w, err.Error(), http.StatusInternalServerError)
-//	}
-//}
 
 // Вывод на экран ошибки в формате JSON
 func returnError(w http.ResponseWriter, text string, statusCode int) {
@@ -72,9 +54,7 @@ func returnSuccessAddingNewExpression(w http.ResponseWriter, id int) {
 	}
 }
 
-// TODO Test this shit!
-// TODO Не забудь протестировать каджую строку особенно получение по id и поведение его exist
-// Вывод на экран всех выражений
+// GetAllExpressionsHandler Вывод на экран всех выражений
 func GetAllExpressionsHandler(w http.ResponseWriter, r *http.Request) {
 	var rData []byte
 	var err error
@@ -129,17 +109,14 @@ func GetAllExpressionsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// TODO Test This Shit -> TTS
-// TODO пользователь может сам обратиться к этой хуйне и невольно удалить еще не решенное выражение. Добавь флаг обозначающий обращение именно самого калькулятора
-// TODO потестируй еще раз без удаления нерешенного сразу после запроса. Придумай более элегантный способ
 func GetTaskHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
+	if r.Method == "GET" && r.Header.Get("FromWhat") == "FromCalc" {
 		newExpression, exists := GetUnresolvedOne()
 		if !exists {
 			returnError(w, "No tasks", http.StatusInternalServerError)
 			return
 		}
-		resp := taskResponse{
+		resp := TaskResponse{
 			Id:         newExpression.Id,
 			Expression: newExpression.Expression,
 		}
@@ -148,15 +125,12 @@ func GetTaskHandler(w http.ResponseWriter, r *http.Request) {
 			returnError(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		_, err = fmt.Fprintf(w, string(rData))
-		if err != nil {
-			returnError(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
 	} else if r.Method == "POST" {
 		var myReq Expression
 
-		body, err := ioutil.ReadAll(r.Body)
+		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			returnError(w, err.Error(), http.StatusInternalServerError)
 			return

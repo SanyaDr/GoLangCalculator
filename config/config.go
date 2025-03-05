@@ -3,7 +3,7 @@ package config
 const (
 	DefaultLaunchPort = "8080" // Порт по умолчанию для запуска сервера
 
-	CheckNewExpression_Timeout = 1 // timeout для повторного обращения к Оркестратору (в секундах)
+	CheckNewExpression_Timeout = 300 // Timeout для повторного обращения к Оркестратору (в миллисекундах)
 )
 
 // Названия переменных окружения системы

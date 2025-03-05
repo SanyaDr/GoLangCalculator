@@ -7,13 +7,6 @@ import (
 	"net/http"
 )
 
-// TODO del
-//type expressionResultRequest struct {
-//	Id     int     `json:"id"`
-//	Status string  `json:"status"`
-//	Answer float64 `json:"answer"`
-//}
-
 func PostStatusCalc(id int, status ExpressionStatus, answer float64) {
 	myReq := Expression{
 		Id:     id,

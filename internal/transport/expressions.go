@@ -1,12 +1,16 @@
 package transport
 
-import "log"
+import (
+	"log"
+	"sync"
+)
 
 var (
 	nextId = 0
+	mux    sync.Mutex
 )
 
-// Статус решения выражения
+// ExpressionStatus Статус решения выражения
 type ExpressionStatus string
 
 const (
@@ -38,8 +42,12 @@ func AddNewExpression(expression string) int {
 		if exists {
 			log.Printf("ERROR: Expression already exists!")
 		}
+		mux.Lock()
 		nextId++
+		mux.Unlock()
 	}
+	mux.Lock()
+	defer mux.Unlock()
 	unresolvedExpressions[nextId] = exp
 	expressionStorage[nextId] = exp
 	nextId++
@@ -51,15 +59,18 @@ func delFromUnresolved(id int) {
 	if !exists {
 		log.Printf("ERROR: delFromUnresolved(%v) -> unresolved Expression does not exist!", id)
 	}
+	mux.Lock()
+	defer mux.Unlock()
 	delete(unresolvedExpressions, id)
+
 }
 
-// Получить карту всех выражений
+// GetMapAllExpressions Получить карту всех выражений
 func GetMapAllExpressions() map[int]Expression {
 	return expressionStorage
 }
 
-// Получить слайс всех выражений
+// GetAllExpressions Получить слайс всех выражений
 func GetAllExpressions() []Expression {
 	allExps := make([]Expression, 0, len(expressionStorage))
 	for _, expression := range expressionStorage {
@@ -80,11 +91,15 @@ func GetUnresolvedOne() (Expression, bool) {
 	}
 	return expr, exists
 }
+func GetExistUnresolved() bool {
+	return len(unresolvedExpressions) > 0
+}
 
 func UpdateExpressionStatus(id int, status ExpressionStatus, result float64) {
 	expr, exists := expressionStorage[id]
 	if !exists {
 		log.Printf("ERROR: UpdateExpressionStatus(%v) -> Expression does not exist!", id)
+
 	}
 	expr.Status = status
 	if status == Success {
@@ -92,6 +107,8 @@ func UpdateExpressionStatus(id int, status ExpressionStatus, result float64) {
 	} else {
 		expr.Result = 0
 	}
+	mux.Lock()
 	expressionStorage[id] = expr
+	mux.Unlock()
 	//delFromUnresolved(id)
 }

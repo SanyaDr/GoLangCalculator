@@ -18,10 +18,6 @@ func setEndpoints() {
 	// "/api/v1/expressions/:id" - Получение выражения по его идентификатору
 	http.HandleFunc("/api/v1/expressions", transport.GetAllExpressionsHandler)
 
-	//Меняем суть, теперь оно отдает не таски и целиком выражения
-	// "/internal/task" - Получение задачи для выполнения
+	// "/internal/task" - Получение и прием задачи для выполнения
 	http.HandleFunc("/internal/task", transport.GetTaskHandler)
-	// "/internal/task" - Прием результата обработки данных
-	// ?????????
-
 }
