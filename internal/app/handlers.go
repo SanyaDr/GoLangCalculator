@@ -1,7 +1,7 @@
 package app
 
 import (
-	"SecondSprintExam/internal/transport"
+	"GoLangCalculator/internal/transport"
 	"fmt"
 	"net/http"
 )

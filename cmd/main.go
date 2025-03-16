@@ -2,8 +2,7 @@ package main
 
 import (
 	"GoLangCalculator/config"
-	calculator "GoLangCalculator/pkg/calculation"
-	"fmt"
+	"GoLangCalculator/internal/app"
 	"log"
 	"os"
 )
@@ -22,10 +21,7 @@ func initVars() {
 }
 
 func main() {
-	num, err := calculator.Calc("(2)+(3)")
-	fmt.Printf("num: %v; err: %v\n", num, err)
-
-	//setLogger()
-	//initVars()
-	//app.RunServer()
+	setLogger()
+	initVars()
+	app.RunServer()
 }

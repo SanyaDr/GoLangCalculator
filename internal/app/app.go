@@ -1,7 +1,7 @@
 package app
 
 import (
-	"SecondSprintExam/config"
+	"GoLangCalculator/config"
 	"log"
 	"net/http"
 	"sync"

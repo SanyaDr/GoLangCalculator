@@ -1,9 +1,9 @@
 package app
 
 import (
-	"SecondSprintExam/config"
-	"SecondSprintExam/internal/transport"
-	calculator "SecondSprintExam/pkg/calculation2"
+	"GoLangCalculator/config"
+	"GoLangCalculator/internal/transport"
+	calculator "GoLangCalculator/pkg/calculation"
 	"context"
 	"encoding/json"
 	"io"
@@ -23,7 +23,7 @@ func setChecker() {
 			case <-ctx.Done():
 				cancel()
 
-			case <-time.After(config.CheckNewExpression_Timeout * time.Millisecond):
+			case <-time.After(config.CheckNewExpressionTimeout * time.Millisecond):
 				if !transport.GetExistUnresolved() {
 					break
 				}
