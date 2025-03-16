@@ -1,7 +1,7 @@
-package calculatorTest
+package testdata
 
 import (
-	calculator "SecondSprintExam/pkg/calculation"
+	calculator "SecondSprintExam/pkg/calculation2"
 	"errors"
 	"fmt"
 	"strconv"
