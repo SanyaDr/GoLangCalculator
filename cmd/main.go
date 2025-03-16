@@ -1,8 +1,9 @@
 package main
 
 import (
-	"SecondSprintExam/config"
-	"SecondSprintExam/internal/app"
+	"GoLangCalculator/config"
+	calculator "GoLangCalculator/pkg/calculation"
+	"fmt"
 	"log"
 	"os"
 )
@@ -21,7 +22,10 @@ func initVars() {
 }
 
 func main() {
-	setLogger()
-	initVars()
-	app.RunServer()
+	num, err := calculator.Calc("(2)+(3)")
+	fmt.Printf("num: %v; err: %v\n", num, err)
+
+	//setLogger()
+	//initVars()
+	//app.RunServer()
 }

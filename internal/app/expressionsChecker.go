@@ -3,7 +3,7 @@ package app
 import (
 	"SecondSprintExam/config"
 	"SecondSprintExam/internal/transport"
-	calculator "SecondSprintExam/pkg/calculation"
+	calculator "SecondSprintExam/pkg/calculation2"
 	"context"
 	"encoding/json"
 	"io"

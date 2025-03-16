@@ -1,4 +1,4 @@
-package calculator
+package calculation
 
 import "errors"
 

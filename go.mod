@@ -1,1 +1,1 @@
-module SecondSprintExam
+module GoLangCalculator
